@@ -1,0 +1,30 @@
+CREATE TABLE users(
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    password VARCHAR(72),
+    rol VARCHAR(72)
+);
+CREATE TABLE keysLada(
+    keylada_id SERIAL PRIMARY KEY,
+    key VARCHAR(3),
+    description VARCHAR(30)
+);
+CREATE TABLE targetUsers(
+    targetuser_id SERIAL PRIMARY KEY,
+    destination_number VARCHAR(8),
+    origin VARCHAR(20),
+    keylada_id BIGINT, 
+    user_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users (user_id),
+    FOREIGN KEY (keylada_id) REFERENCES keyslada (keylada_id)
+);
+CREATE TABLE messagesLog(
+    message_id SERIAL PRIMARY KEY,
+    text VARCHAR(100),
+    targetuser_id BIGINT,
+    cloud_url TEXT,
+    twilio_sid VARCHAR(150),
+    date timestamp,
+    status VARCHAR(10),
+    FOREIGN KEY (targetuser_id) REFERENCES targetUsers (targetuser_id)
+);
